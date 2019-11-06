@@ -102,6 +102,17 @@ export class GrpcClient {
         })
     }
 
+    SubmitTx(txhex: string): Promise<bchrpc.SubmitTransactionResponse> {
+        let req = new bchrpc.SubmitTransactionRequest()
+        req.setTransaction(txhex);
+        return new Promise((resolve, reject) => {
+            this.client.submitTransaction(req, (err, data) => {
+                if(err!==null) reject(err);
+                else resolve(data!);
+            })
+        })
+    }
+
     getRawBlock({ index, hash, reverseOrder }: { index?: number, hash?: string; reverseOrder?: boolean; }): Promise<bchrpc.GetRawBlockResponse> {
         let req = new bchrpc.GetRawBlockRequest();
         if(index)
